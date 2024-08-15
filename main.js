@@ -5,12 +5,16 @@ const onClickAdd = () => {
     const inputText = document.getElementById("add-text").value;
     document.getElementById("add-text").value = "";
     
+    createIncompleteTodo(inputText);
+}
+
+const createIncompleteTodo = (todo) => {
     const li = document.createElement("li");
     const div = document.createElement("div");
     div.className = "list-row";
     const p = document.createElement("p");
     p.className = "todo-item";
-    p.innerText = inputText;
+    p.innerText = todo;
 
     const completeButton = document.createElement("button");
     completeButton.innerText = "完了";
@@ -21,6 +25,12 @@ const onClickAdd = () => {
 
         const backButton = document.createElement("button");
         backButton.innerText = "戻す";
+        backButton.addEventListener("click", () => {
+            const todoText = backButton.previousElementSibling.innerText;
+            createIncompleteTodo(todoText);
+
+            backButton.closest("li").remove();
+        });
 
         moveTarget.firstElementChild.appendChild(backButton);
 
@@ -40,6 +50,6 @@ const onClickAdd = () => {
     li.appendChild(div);
 
     document.getElementById("incomplete-list").appendChild(li);
-}
+};
 
 document.getElementById("add-button").addEventListener("click", onClickAdd);
